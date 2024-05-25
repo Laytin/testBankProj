@@ -1,5 +1,6 @@
 package com.testBankProj.laytin.service;
 
+import com.testBankProj.laytin.dto.CustomerDTO;
 import com.testBankProj.laytin.dto.TransferRequest;
 import com.testBankProj.laytin.dto.TransferResponce;
 import com.testBankProj.laytin.models.Customer;
@@ -22,6 +23,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,6 +60,25 @@ public class CustomerService{
         Hibernate.initialize(c.getPhoneList());
         Hibernate.initialize(c.getEmailList());
         return c;
+    }
+    public List<Customer> searchCustomer(LocalDate dateOfBirth,String fullname,String phone,String email,String type,String sortBy,int page){
+        List<Customer> result = new ArrayList<>();
+        log.info("Voided search with type:" + type);
+        switch (type.toLowerCase()){
+            case "email":
+                result.add(searchByEmail(email));
+                break;
+            case "phone":
+                result.add(searchByPhone(phone));
+                break;
+            case "dateofbirth":
+                result = searchByDateOfBirth(page,sortBy,dateOfBirth);
+                break;
+            case "fullname":
+                result = searchByFullName(page,sortBy,fullname);
+                break;
+        }
+        return result;
     }
     public Customer searchByEmail(String email) {
         Optional<Email> em = emailRepository.findByEmail(email);
