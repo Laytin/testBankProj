@@ -48,12 +48,12 @@ public class CustomerController implements ICustomerController{
     }
 
     @Override
-    public CustomerDTO getUser(@Parameter(description = "id of customer to be searched") @PathVariable("id") int id){
+    public CustomerDTO getUser(int id){
         return mapper.map(customerService.get(id),CustomerDTO.class);
     }
 
     @Override
-    public TransferResponce sendMoney(@RequestBody @Valid TransferRequest rq, Authentication auth){
+    public TransferResponce sendMoney(TransferRequest rq, Authentication auth){
         rq.setOwnerId(((CustomerDetails)auth.getPrincipal()).getCustomer().getId());
         TransferResponce tr = customerService.transferMoney(rq);
         return tr;
