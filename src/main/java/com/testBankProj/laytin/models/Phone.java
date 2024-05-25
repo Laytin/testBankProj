@@ -13,7 +13,6 @@ import org.hibernate.annotations.Cascade;
 @NoArgsConstructor
 @Entity
 @Table(name = "Phone")
-@Tag(name = "Phone model", description = "Phone model")
 public class Phone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,16 +20,12 @@ public class Phone {
     private int id;
     @NonNull
     @Column(unique=true)
-    @NotNull
-    @Pattern(regexp = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$")
-    @Schema(name = "phone", example = "+375252555522",required = true)
     private String phone;
     @NonNull
     @ManyToOne()
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     @JsonIgnore
     @ToString.Exclude
-    @Schema(name = "customer key",required = true)
     private Customer customer;
 
     public Phone(@NonNull String phone, @NonNull Customer customer) {

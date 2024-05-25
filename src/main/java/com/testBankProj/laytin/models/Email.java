@@ -13,7 +13,6 @@ import org.hibernate.annotations.Cascade;
 @NoArgsConstructor
 @Entity
 @Table(name = "email")
-@Tag(name = "email model", description = "email model")
 public class Email {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,17 +20,12 @@ public class Email {
     private int id;
     @NonNull
     @Column(unique=true)
-    @NotNull
-    @NotNull
-    @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
-    @Schema(name = "email", example = "email@gmail.com",required = true)
     private String email;
     @NonNull
     @ManyToOne()
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     @JsonIgnore
     @ToString.Exclude
-    @Schema(name = "customer key",required = true)
     private Customer customer;
 
     public Email(@NonNull String email, @NonNull Customer customer) {
